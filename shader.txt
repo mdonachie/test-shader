@@ -1,0 +1,19 @@
+shader_type canvas_item;
+
+uniform float speed : hint_range(0.0, 2.0) = 0.1; //was 1
+uniform float amplitude : hint_range(0.0, 0.3) = 1.0; //was 0.1
+uniform float frequency : hint_range(0.0, 10.0) = 1.0; //was 5.0
+uniform sampler2D screen_texture : hint_screen_texture;
+
+void fragment() {
+    vec2 uv = SCREEN_UV;
+
+    // Calculate the displacement using a combination of sine and cosine
+    float displacement = amplitude * (sin(uv.x * frequency) + cos(uv.y * frequency));
+
+    // Offset the UV coordinates based on the displacement
+    uv.y += displacement;
+
+    // Sample the screen texture at the modified coordinates
+    COLOR = texture(screen_texture, uv);
+}
